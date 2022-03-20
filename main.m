@@ -1,33 +1,34 @@
-function output_vector = Liebmanns_standard_method (dimension,top_boundary_temperature,bottom_boundary_temperature,left_boundary_temperature,right_boundary_temperature,iteration_times,initial_guessing_temperature)
+%Liebmanns_standard_method
+function output_vector = Liebmanns_standard_method (grid_dimension,top_boundary_temperature,bottom_boundary_temperature,left_boundary_temperature,right_boundary_temperature,iteration_times,initial_guessing_temperature)
 
 %{
 Function variables explanations are as bellow:
 
-grid_dimension: Assume the grid dimention is a square, for a dimension of N
+grid_dimension: Assume the grid dimension is a square, for a dimension of N
 x N meshgrid, put the value of N into the grid_dimension variable. For
 example, for a 10 x 10 meshgrid, grid_dimension is 10.
 
-top_boundary_temperature: The initial boundary tempemterature of the
+top_boundary_temperature: The initial boundary temperature of the
 top edge.
 
-bottom_boundary_temperature: The initial boundary tempemterature of the
+bottom_boundary_temperature: The initial boundary temperature of the
 bottom edge.
 
-left_boundary_temperature: The initial boundary tempemterature of the
+left_boundary_temperature: The initial boundary temperature of the
 left edge.
 
-right_boundary_temperature: The initial boundary tempemterature of the
+right_boundary_temperature: The initial boundary temperature of the
 right edge.
 
-iteration_times: The number of iteration requried for the computation.
+iteration_times: The number of iterations required for the computation.
 
-initial_guessing_temperature: Here we assume the guessting temperature values of the
-system are the same in each element in the meshgrid.
+initial_guessing_temperature: Here we assume the guessing temperature values of the
+system is the same in each element in the meshgrid.
 %}
 
 
 %Each of the function variables declared above is now assigned with an alphabet variable for better readability.
-N=dimension;
+N=grid_dimension;
 T=top_boundary_temperature;        
 B=bottom_boundary_temperature;  
 L=left_boundary_temperature;
@@ -54,9 +55,10 @@ for i= 2:N
 end
 
 %Assign the V vector to a new variable for Liebmanns method 
+
 updated_array=V;
 for o = 1:Z
-    for x =2:N
+    for x =N:-1:2
         for y =2:N
             updated_array(x,y)=(V(x-1,y)+V(x+1,y)+V(x,y-1)+V(x,y+1))/4;
         end
@@ -64,15 +66,14 @@ for o = 1:Z
     number_of_iteration=o
     V=updated_array
 end
-output=('Final Temperature Distribution')
+output=('Final Temperature Distribution using Liebmanns standard method')
 V
 x=[0:N];
 y=(N:-1:0);
 surf(x,y,V)
-%plot3(x,y,V)
 grid
 xlabel('X position')
 ylabel('Y Position')
 zlabel('Temperature °C')
-title('Temperature Distribution in the System')
+title('Temperature Distribution in the system using Liebmanns standard method')
 end
